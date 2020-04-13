@@ -33,6 +33,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.NotificationCompat;
+import android.content.Intent;
+import android.app.PendingIntent;
 
 public class AndroidNotification
 {
@@ -54,6 +56,13 @@ public class AndroidNotification
     {
         NotificationManagerCompat Manager = NotificationManagerCompat.from(mActivityInstance);
         mAppNotification.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        Intent intent = new Intent(mActivityInstance, mActivityInstance.getClass());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mActivityInstance, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mAppNotification.setContentIntent(pendingIntent);
+
         Manager.notify(mNotificationId, mAppNotification.build());
         mNotificationEnabled = true;
     }
